@@ -2,7 +2,7 @@ import SearchForm from "./components/SearchForm";
 import Result from "./components/Result";
 import ErrorWarning from "./components/ErrorWarning";
 import SearchHistory from "./components/SearchHistory";
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import "./App.css";
 
 const App = () => {
@@ -13,19 +13,17 @@ const App = () => {
     lon: "",
   });
   const [error, setError] = useState(false);
-  const addSearchResult = useCallback(
+  const addSearchResult = (result) => {
+    // Consider using useCallback for this
     // https://www.w3schools.com/react/react_usecallback.asp
-    (result) => {
-      const newSearchResults = [...searchResults];
-      newSearchResults.push({
-        name: result["name"],
-        lat: result["lat"],
-        lon: result["lon"],
-      });
-      setSearchResults(newSearchResults);
-    },
-    [searchResults, setSearchResults]
-  );
+    const newSearchResults = [...searchResults];
+    newSearchResults.push({
+      name: result["name"],
+      lat: result["lat"],
+      lon: result["lon"],
+    });
+    setSearchResults(newSearchResults);
+  };
   return (
     <div className="App">
       <h1>Get Latitude and Logitude</h1>
