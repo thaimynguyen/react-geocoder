@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import SearchForm from "./components/SearchForm";
+import Result from "./components/Result";
+import ErrorWarning from "./components/ErrorWarning";
+import SearchHistory from "./components/SearchHistory";
+import { useState, useCallback } from "react";
+import "./App.css";
 
-function App() {
+const App = () => {
+  const [searchResults, setSearchResults] = useState([]);
+  const [currentResult, setCurrrentResult] = useState({
+    name: "",
+    lat: "",
+    lon: "",
+  });
+  const [error, setError] = useState(false);
+  const addSearchResult = useCallback(
+    (result) => {
+      const newSearchResults = [...searchResults];
+      newSearchResults.push({
+        name: result["name"],
+        lat: result["lat"],
+        lon: result["lon"],
+      });
+      setSearchResults(newSearchResults);
+    },
+    [searchResults, setSearchResults]
+  );
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Get Latitude and Logitude</h1>
+      <SearchForm
+        setError={setError}
+        addSearchResult={addSearchResult}
+        setCurrrentResult={setCurrrentResult}
+      />
+      <Result currentResult={currentResult} />
+      {error === true && <ErrorWarning />}
+      {searchResults.length > 0 && (
+        <SearchHistory searchResults={searchResults} />
+      )}
     </div>
   );
-}
+};
 
 export default App;
