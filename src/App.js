@@ -14,6 +14,7 @@ const App = () => {
   });
   const [error, setError] = useState(false);
   const addSearchResult = useCallback(
+    // https://www.w3schools.com/react/react_usecallback.asp
     (result) => {
       const newSearchResults = [...searchResults];
       newSearchResults.push({
